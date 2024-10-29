@@ -20,7 +20,7 @@ import { InMemoryDataService } from './in-memory-data.service';
     PokemonModule,
     AppRoutingModule,
   ],
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(),],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

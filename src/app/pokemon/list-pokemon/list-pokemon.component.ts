@@ -11,7 +11,7 @@ export class ListPokemonComponent implements OnInit {
 
 
   pokemonList! : Pokemon[]
-  pokemonSelected: Pokemon| undefined
+  pokemonsSelected: Pokemon []
 
   constructor(private router : Router,private pokemonService : PokemonService){}
 
@@ -19,17 +19,20 @@ export class ListPokemonComponent implements OnInit {
   this.pokemonList =  this.pokemonService.getPokemonList()
   }
 
-  selectPokemon(pokemonId : string) {
+  selectPokemon(prompt: string) {
+    const matchingPokemons: Pokemon[] = this.pokemonList.filter(pokemon => 
+        pokemon.name.toLowerCase().includes(prompt.toLowerCase())
+    );
 
-      const pokemon : Pokemon|undefined = this.pokemonList.find(pokemon=> pokemon.id == +pokemonId)
-      if(pokemon ){
-      console.log(`Vous avez demandé le Pokémon ${pokemon.name}`)
-      this.pokemonSelected = pokemon
-    }else{
-      console.log(`Vous avez demandé un Pokémon qui n'existe pas`)
-      this.pokemonSelected = pokemon
+    if (matchingPokemons.length > 0) {
+        console.log(`Vous avez demandé les Pokémon suivants : ${matchingPokemons.map(p => p.name).join(', ')}`);
+        this.pokemonsSelected = matchingPokemons;
+    } else {
+        console.log(`Aucun Pokémon ne correspond à votre recherche.`);
+        this.pokemonsSelected = [];
     }
-  }
+}
+
 
   goToDetailsPokemon(pokemon : Pokemon){
     this.router.navigate(['pokemon',pokemon.id])

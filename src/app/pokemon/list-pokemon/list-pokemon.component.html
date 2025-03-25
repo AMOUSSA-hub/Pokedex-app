@@ -1,22 +1,39 @@
 <div class="container">
     <input
     #input
-    (keyup.enter)="selectPokemon((input.value))"
-    type="number"
+    (input)=" selectPokemon((input.value))"
+    type="search"
     />
     
-    <p *ngIf="pokemonSelected">
-       Vous avez sélectionné le Pokémon: {{pokemonSelected.name}} 
-    </p>
+    <div *ngIf=" pokemonsSelected && pokemonsSelected.length > 0">
+            <div class="row" >
+              <div class="col s6 m4" *ngFor="let pokemon of pokemonsSelected">
+                <div class="card horizontal" pkmBorderCard  (click)="goToDetailsPokemon(pokemon)" style="cursor: pointer;">
+                  <div class="card-image">
+                    <img [src]="pokemon.picture" >
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                      <h5>{{pokemon.name}}</h5>
+                      <p><small>{{pokemon.created | date:"dd/mm/yyyy HH:mm" | uppercase}}</small></p>
+                        
+                        <span *ngFor="let t of pokemon.types" [class]="t|pokemonTypeColor">{{t}}</span>
+                
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+      </div>
     
-    <p *ngIf="!pokemonSelected">
+    
+    <p *ngIf=" input.value.trim() != '' && pokemonsSelected && pokemonsSelected.length == 0" >
        Aucun Pokémon n'a été trouvé.
     </p>
-    
-    
-    
-    
-       <div class="row" >
+
+    <div *ngIf=" input.value.trim() == '' ">
+        <div class="row" >
           <div class="col s6 m4" *ngFor="let pokemon of pokemonList">
             <div class="card horizontal" pkmBorderCard  (click)="goToDetailsPokemon(pokemon)" style="cursor: pointer;">
               <div class="card-image">
@@ -24,10 +41,10 @@
               </div>
               <div class="card-stacked">
                 <div class="card-content">
-                   <h5>{{pokemon.name}}</h5>
-                   <p><small>{{pokemon.created | date:"dd/mm/yyyy HH:mm" | uppercase}}</small></p>
+                  <h5>{{pokemon.name}}</h5>
+                  <p><small>{{pokemon.created | date:"dd/mm/yyyy HH:mm" | uppercase}}</small></p>
                     
-      <span *ngFor="let t of pokemon.types" [class]="t|pokemonTypeColor">{{t}}</span>
+                    <span *ngFor="let t of pokemon.types" [class]="t|pokemonTypeColor">{{t}}</span>
             
                 </div>
               </div>
@@ -35,5 +52,15 @@
             </div>
           </div>
         </div>
+      </div>
+   
+
+
+    
+    
+    
+   
+       
+      
     
     </div>
